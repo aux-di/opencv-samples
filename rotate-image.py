@@ -23,7 +23,7 @@ angle = 30.0
 # scale ratio
 scale = 1.0
 
-# rotate
+# rotate image
 rotation_matrix = cv2.getRotationMatrix2D(center, angle, scale)
 rotation = cv2.warpAffine(gray, rotation_matrix, size, flags=cv2.INTER_CUBIC)
 
