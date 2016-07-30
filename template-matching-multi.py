@@ -25,6 +25,8 @@ threshold = 0.99
 # select matching points
 loc = np.where(res >= threshold)
 
+print loc
+
 # draw rectangles
 for pt in zip(*loc[::-1]):
     print pt
