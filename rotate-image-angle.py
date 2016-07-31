@@ -33,8 +33,8 @@ points = np.empty((0, 2), dtype=int)
 for pt in zip(*loc[::-1]):
     points = np.append(points, np.array([pt]), axis=0)
 
-    pt2 = (pt[0] + w, pt[1] + h)
-    cv2.rectangle(gray, pt, pt2, 0x66)
+    # pt2 = (pt[0] + w, pt[1] + h)
+    # cv2.rectangle(gray, pt, pt2, 0x66)
 
 # draw line
 
@@ -45,7 +45,7 @@ else:
     x1, y1 = points[1]
     x2, y2 = points[0]
 
-cv2.line(gray, (x1, y1), (x2, y2), 0x66)
+# cv2.line(gray, (x1, y1), (x2, y2), 0x66)
 
 ######################################
 # OpenCV rotate
@@ -72,8 +72,29 @@ print rotation.shape
 sp = ndimage.rotate(gray, deg, reshape=False)
 cv2.imshow('sp', sp)
 
-cv2.imshow('gray', gray)
-cv2.imshow('rotation', rotation)
+# template matching
+
+# template matching
+res = cv2.matchTemplate(sp, gray_template, cv2.TM_CCOEFF_NORMED)
+
+# threshold
+threshold = 0.98
+
+# select matching points
+loc = np.where(res >= threshold)
+
+points = np.empty((0, 2), dtype=int)
+
+# draw rectangles
+for pt in zip(*loc[::-1]):
+    points = np.append(points, np.array([pt]), axis=0)
+
+    pt2 = (pt[0] + w, pt[1] + h)
+    cv2.rectangle(sp, pt, pt2, 0x66)
+
+# cv2.imshow('gray', gray)
+# cv2.imshow('rotation', rotation)
+cv2.imshow('sp', sp)
 cv2.imshow('gray template', gray_template)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
