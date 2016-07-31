@@ -72,10 +72,9 @@ print rotation.shape
 sp = ndimage.rotate(gray, deg, reshape=False)
 cv2.imshow('sp', sp)
 
-# template matching
-
-# template matching
-res = cv2.matchTemplate(sp, gray_template, cv2.TM_CCOEFF_NORMED)
+# template matching again only ROI(200x200)
+sp1 = sp[0:200, 0:200]
+res = cv2.matchTemplate(sp1, gray_template, cv2.TM_CCOEFF_NORMED)
 
 # threshold
 threshold = 0.98
@@ -90,11 +89,11 @@ for pt in zip(*loc[::-1]):
     points = np.append(points, np.array([pt]), axis=0)
 
     pt2 = (pt[0] + w, pt[1] + h)
-    cv2.rectangle(sp, pt, pt2, 0x66)
+    cv2.rectangle(sp1, pt, pt2, 0x66)
 
 # cv2.imshow('gray', gray)
 # cv2.imshow('rotation', rotation)
-cv2.imshow('sp', sp)
+cv2.imshow('sp', sp1)
 cv2.imshow('gray template', gray_template)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
